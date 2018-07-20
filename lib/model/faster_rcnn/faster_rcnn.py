@@ -8,6 +8,7 @@ from model.rpn.rpn import _RPN
 from model.roi_pooling.modules.roi_pool import _RoIPooling
 from model.roi_crop.modules.roi_crop import _RoICrop
 from model.roi_align.modules.roi_align import RoIAlignAvg
+from model.psroi_pooling.modules.psroi_pool import PSRoIPool
 from model.rpn.proposal_target_layer_cascade import _ProposalTargetLayer
 from model.utils.net_utils import _smooth_l1_loss, _affine_grid_gen
 from model.utils.layer_utils import LargeSeparableConv2d
@@ -38,6 +39,7 @@ class _fasterRCNN(nn.Module):
         self.RCNN_proposal_target = _ProposalTargetLayer(self.n_classes)
         self.RCNN_roi_pool = _RoIPooling(cfg.POOLING_SIZE, cfg.POOLING_SIZE, 1.0/16.0)
         self.RCNN_roi_align = RoIAlignAvg(cfg.POOLING_SIZE, cfg.POOLING_SIZE, 1.0/16.0)
+        self.RCNN_psroi_pool = PSRoIPool(cfg.POOLING_SIZE, cfg.POOLING_SIZE, 1.0/16.0, 3)
 
         self.grid_size = cfg.POOLING_SIZE * 2 if cfg.CROP_RESIZE_WITH_MAX_POOL else cfg.POOLING_SIZE
         self.RCNN_roi_crop = _RoICrop()
@@ -106,6 +108,8 @@ class _fasterRCNN(nn.Module):
             pooled_feat = self.RCNN_roi_align(base_feat, rois.view(-1, 5))
         elif cfg.POOLING_MODE == 'pool':
             pooled_feat = self.RCNN_roi_pool(base_feat, rois.view(-1, 5))
+        elif cfg.POOLING_MODE == 'psroi':
+            pooled_feat = self.RCNN_psroi_pool(base_feat, rois.view(-1, 5))
         roi_pool_time = time.time()
         self.roi_pooling_time = roi_pool_time - pre_roi_time
 
