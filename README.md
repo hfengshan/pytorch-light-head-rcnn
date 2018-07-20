@@ -78,13 +78,17 @@ However, our implementation has several unique and new features compared with th
 
 - [x] Support both python2 and python3 (great thanks to [cclauss](https://github.com/cclauss)).
 
-- [ ] Implement Xceptional-like backbone network. (Coming soon...)
-
 - [ ] ~~Add deformable pooling layer as an alternative way for roi pooling (mainly supported by [Xander](https://github.com/xanderchf))~~ Don't know when.
 
 - [ ] ~~Run systematical experiments on PASCAL VOC 07/12, COCO, ImageNet, Visual Genome (VG) with different settings.~~
 
 - [ ] ~~Write a detailed report about the new stuffs in our implementations, and the quantitative results in our experiments.~~
+
+- [x] Implement Xceptional-like backbone network. (Testing for viable implementation)
+
+- [ ] Adjust optimal hyperparameters for ResNet101 (Default backbone network)
+
+- [ ] PSRoI Pooling Implementation (On progress...)
 
   
 
@@ -97,7 +101,7 @@ First of all, clone the code
 
 ```
 
-git clone https://github.com/jungwon1413/pytorch-lighthead.git
+git clone https://github.com/jungwon1413/pytorch-light-head-rcnn.git
 
 ```
 
@@ -107,7 +111,7 @@ Then, create a folder:
 
 ```
 
-cd pytorch-lighthead && mkdir data
+cd pytorch-light-head-rcnn && mkdir data
 
 ```
 
